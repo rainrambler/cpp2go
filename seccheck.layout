@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="seccheck" />
+	<File name="lib\cppcheck.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1582" topLine="39" />
+		</Cursor>
+	</File>
+	<File name="lib\checkclass.cpp" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2745" topLine="78" />
+		</Cursor>
+	</File>
+	<File name="cli\cppcheckexecutor.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="30567" topLine="855" />
+		</Cursor>
+	</File>
+	<File name="lib\token.h" open="1" top="1" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2681" topLine="69" />
+		</Cursor>
+	</File>
+	<File name="lib\checkfloatarithmetic.cpp" open="0" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1936" topLine="135" />
+		</Cursor>
+	</File>
+	<File name="lib\checkcomplexcopying.cpp" open="0" top="0" tabpos="13" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4718" topLine="207" />
+		</Cursor>
+	</File>
+	<File name="lib\settings.h" open="1" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4532" topLine="150" />
+		</Cursor>
+	</File>
+	<File name="lib\checkunsafefunctions.cpp" open="0" top="0" tabpos="17" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3080" topLine="81" />
+		</Cursor>
+	</File>
+	<File name="lib\tokenize.cpp" open="1" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="132483" topLine="3727" />
+		</Cursor>
+	</File>
+	<File name="lib\checkclasssecurity.cpp" open="1" top="0" tabpos="12" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4209" topLine="125" />
+		</Cursor>
+	</File>
+	<File name="lib\symboldatabase.cpp" open="1" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="772" topLine="30" />
+		</Cursor>
+	</File>
+	<File name="lib\token.cpp" open="1" top="0" tabpos="14" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="32915" topLine="1133" />
+		</Cursor>
+	</File>
+	<File name="lib\checkintegers.cpp" open="0" top="0" tabpos="15" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4511" topLine="125" />
+		</Cursor>
+	</File>
+	<File name="lib\preprocessor.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1741" topLine="44" />
+		</Cursor>
+	</File>
+	<File name="cli\cmdlineparser.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4852" topLine="132" />
+		</Cursor>
+	</File>
+	<File name="lib\checkother.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="83191" topLine="1755" />
+		</Cursor>
+	</File>
+	<File name="lib\tokenize.h" open="1" top="0" tabpos="11" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="23733" topLine="727" />
+		</Cursor>
+	</File>
+	<File name="cli\cppcheckexecutor.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1866" topLine="48" />
+		</Cursor>
+	</File>
+	<File name="lib\checkunsafefunctions.h" open="0" top="0" tabpos="18" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2701" topLine="60" />
+		</Cursor>
+	</File>
+	<File name="cli\main.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4404" topLine="109" />
+		</Cursor>
+	</File>
+	<File name="lib\checksizeofpointer.cpp" open="0" top="0" tabpos="16" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="742" topLine="100" />
+		</Cursor>
+	</File>
+	<File name="lib\checkclass.h" open="1" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4552" topLine="117" />
+		</Cursor>
+	</File>
+</CodeBlocks_layout_file>
