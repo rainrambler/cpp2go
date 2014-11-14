@@ -2,12 +2,11 @@
 
 ## About
 
-Seccheck is a security analysis tool for C and C++ code.
-The original code repository is based on Cppcheck source code.
+Cpp2go is a tool of converting C and C++ source to Google Golang.
 
 ## Manual
 
-seccheck [options] [path or source code files]
+cpp2go [options] [path or source code files]
 
 ## Compiling
 
@@ -24,28 +23,11 @@ There are multiple compilation choices:
 * gnu make
 * g++
 
-### qmake
-
-You can use the gui/gui.pro file to build the GUI.
-
-```shell
-cd gui
-qmake
-make
-```
-
 ### Visual Studio 2010
 
-Use the seccheck_vs2010.sln file. The rules are normally enabled.
-
-To compile with rules (PCRE dependency):
-* the PCRE dll is needed. It can be downloaded from [here](http://cppcheck.sourceforge.net/pcre-8.10-vs.zip).
-
-To compile without rules (no dependencies):
-* remove the preprocessor define `HAVE_RULES` from the project
-* remove the pcre.lib from the project
+Use the cpp2go.sln file.
 
 ## Webpage
 
-https://github.com/rainrambler/seccheck
+https://github.com/rainrambler/cpp2go
 
