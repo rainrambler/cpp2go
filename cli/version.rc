@@ -18,12 +18,12 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "FileDescription", "seccheck Application"
+            VALUE "FileDescription", "cpp2go Application"
             VALUE "FileVersion", CPPCHECK_VERSION_STRING
-            VALUE "InternalName", "seccheck"
+            VALUE "InternalName", "cpp2go"
             VALUE "LegalCopyright", LEGALCOPYRIGHT
-            VALUE "OriginalFilename", "seccheck.exe"
-            VALUE "ProductName", "seccheck Application"
+            VALUE "OriginalFilename", "cpp2go.exe"
+            VALUE "ProductName", "cpp2go Application"
             VALUE "ProductVersion", CPPCHECK_VERSION_STRING
         END
     END

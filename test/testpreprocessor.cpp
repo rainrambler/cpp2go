@@ -3261,7 +3261,7 @@ private:
         settings.addEnabled("all");
         Preprocessor preprocessor(&settings, this);
 
-        std::istringstream src("// seccheck-suppress missingInclude\n"
+        std::istringstream src("// cpp2go-suppress missingInclude\n"
                                "#include \"missing.h\"\n"
                                "int x;");
         std::string processedFile;

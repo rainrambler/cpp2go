@@ -601,11 +601,15 @@ private:
         TEST_CASE(startOfExecutableScope);
     }
 
-    std::string tokenizeAndStringify(const char code[], bool simplify = false, bool expand = true, Settings::PlatformType platform = Settings::Unspecified, const char* filename = "test.cpp", bool cpp11 = true) {
+    std::string tokenizeAndStringify(const char code[], bool simplify = false, bool expand = true, 
+        Settings::PlatformType platform = Settings::Unspecified, const char* filename = "test.cpp", bool cpp11 = true) {
         errout.str("");
 
         Settings settings;
+        //settings.debug = true; // For DEBUG
         settings.debugwarnings = true;
+        //settings._verbose = true; // For DEBUG
+
         settings.platform(platform);
         settings.standards.cpp = cpp11 ? Standards::CPP11 : Standards::CPP03;
 

@@ -540,7 +540,7 @@ std::string Preprocessor::removeComments(const std::string &str, const std::stri
                 std::istringstream iss(comment);
                 std::string word;
                 iss >> word;
-                if (word == "seccheck-suppress") {
+                if (word == "cpp2go-suppress") {
                     iss >> word;
                     if (iss)
                         suppressionIDs.push_back(word);
@@ -577,7 +577,7 @@ std::string Preprocessor::removeComments(const std::string &str, const std::stri
                 std::istringstream iss(comment);
                 std::string word;
                 iss >> word;
-                if (word == "seccheck-suppress") {
+                if (word == "cpp2go-suppress") {
                     iss >> word;
                     if (iss)
                         suppressionIDs.push_back(word);

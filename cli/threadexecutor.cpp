@@ -88,19 +88,19 @@ int ThreadExecutor::handleRead(int rpipe, unsigned int &result)
     }
 
     if (type != REPORT_OUT && type != REPORT_ERROR && type != REPORT_INFO && type != CHILD_END) {
-        std::cerr << "#### You found a bug from seccheck.\nThreadExecutor::handleRead error, type was:" << type << std::endl;
+        std::cerr << "#### You found a bug from cpp2go.\nThreadExecutor::handleRead error, type was:" << type << std::endl;
         std::exit(0);
     }
 
     unsigned int len = 0;
     if (read(rpipe, &len, sizeof(len)) <= 0) {
-        std::cerr << "#### You found a bug from seccheck.\nThreadExecutor::handleRead error, type was:" << type << std::endl;
+        std::cerr << "#### You found a bug from cpp2go.\nThreadExecutor::handleRead error, type was:" << type << std::endl;
         std::exit(0);
     }
 
     char *buf = new char[len];
     if (read(rpipe, buf, len) <= 0) {
-        std::cerr << "#### You found a bug from seccheck.\nThreadExecutor::handleRead error, type was:" << type << std::endl;
+        std::cerr << "#### You found a bug from cpp2go.\nThreadExecutor::handleRead error, type was:" << type << std::endl;
         std::exit(0);
     }
 

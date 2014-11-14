@@ -184,7 +184,7 @@ unsigned int CppCheck::processFile(const std::string& filename, const std::strin
                         Tokenizer tokenizer3(&_settings, this);
                         std::istringstream istr3(code);
                         tokenizer3.list.createTokens(istr3, tokenizer2.list.file(tok));
-                        executeRules("define", tokenizer3);
+                        //executeRules("define", tokenizer3);
                     }
                 }
                 break;
@@ -298,7 +298,7 @@ void CppCheck::checkFile(const std::string &code, const char FileName[])
                 Tokenizer tokenizer2(&_settings, this);
                 std::istringstream istr(code);
                 tokenizer2.list.createTokens(istr, FileName);
-                executeRules("raw", tokenizer2);
+                //executeRules("raw", tokenizer2);
                 break;
             }
         }
@@ -326,18 +326,7 @@ void CppCheck::checkFile(const std::string &code, const char FileName[])
             }
             return;
         }
-
-        // call all "runChecks" in all registered Check classes
-        //for (auto it = Check::instances().begin(); it != Check::instances().end(); ++it) {
-        //    if (_settings.terminated())
-        //        return;
-
-        //    Timer timerRunChecks((*it)->name() + "::runChecks", _settings._showtime, &S_timerResults);
-        //    (*it)->runChecks(&_tokenizer, &_settings, this);
-        //}
-
-        executeRules("normal", _tokenizer);
-
+        
         if (!_simplify)
             return;
 
@@ -347,23 +336,12 @@ void CppCheck::checkFile(const std::string &code, const char FileName[])
         if (!result)
             return;
 
-        // call all "runSimplifiedChecks" in all registered Check classes
-        //for (auto it = Check::instances().begin(); it != Check::instances().end(); ++it) {
-        //    if (_settings.terminated())
-        //        return;
-
-        //    Timer timerSimpleChecks((*it)->name() + "::runSimplifiedChecks", _settings._showtime, &S_timerResults);
-        //    (*it)->runSimplifiedChecks(&_tokenizer, &_settings, this);
-        //}
-
 		GoConvertor goconv(&_tokenizer);
 		goconv.convert();
 
         if (_settings.terminated())
             return;
-
-        executeRules("simple", _tokenizer);
-
+        
         if (_settings.terminated())
             return;
     } catch (const InternalError &e) {
@@ -394,87 +372,6 @@ void CppCheck::executeRules(const std::string &tokenlist, const Tokenizer &token
 {
     (void)tokenlist;
     (void)tokenizer;
-
-#ifdef HAVE_RULES
-    // Are there rules to execute?
-    bool isrule = false;
-    for (auto it = _settings.rules.begin(); it != _settings.rules.end(); ++it) {
-        if (it->tokenlist == tokenlist)
-            isrule = true;
-    }
-
-    // There is no rule to execute
-    if (isrule == false)
-        return;
-
-    // Write all tokens in a string that can be parsed by pcre
-    std::ostringstream ostr;
-    for (const Token *tok = tokenizer.tokens(); tok; tok = tok->next())
-        ostr << " " << tok->str();
-    const std::string str(ostr.str());
-
-    for (auto it = _settings.rules.begin(); it != _settings.rules.end(); ++it) {
-        const Settings::Rule &rule = *it;
-        if (rule.pattern.empty() || rule.id.empty() || rule.severity.empty() || rule.tokenlist != tokenlist)
-            continue;
-
-        const char *error = nullptr;
-        int erroffset = 0;
-        pcre *re = pcre_compile(rule.pattern.c_str(),0,&error,&erroffset,nullptr);
-        if (!re) {
-            if (error) {
-                ErrorLogger::ErrorMessage errmsg(std::list<ErrorLogger::ErrorMessage::FileLocation>(),
-                                                 Severity::error,
-                                                 error,
-                                                 "pcre_compile",
-                                                 false);
-
-                reportErr(errmsg);
-            }
-            continue;
-        }
-
-        int pos = 0;
-        int ovector[30];
-        while (pos < (int)str.size() && 0 <= pcre_exec(re, nullptr, str.c_str(), (int)str.size(), pos, 0, ovector, 30)) {
-            unsigned int pos1 = (unsigned int)ovector[0];
-            unsigned int pos2 = (unsigned int)ovector[1];
-
-            // jump to the end of the match for the next pcre_exec
-            pos = (int)pos2;
-
-            // determine location..
-            ErrorLogger::ErrorMessage::FileLocation loc;
-            loc.setfile(tokenizer.list.getSourceFilePath());
-            loc.line = 0;
-
-            std::size_t len = 0;
-            for (const Token *tok = tokenizer.tokens(); tok; tok = tok->next()) {
-                len = len + 1U + tok->str().size();
-                if (len > pos1) {
-                    loc.setfile(tokenizer.list.getFiles().at(tok->fileIndex()));
-                    loc.line = tok->linenr();
-                    break;
-                }
-            }
-
-            const std::list<ErrorLogger::ErrorMessage::FileLocation> callStack(1, loc);
-
-            // Create error message
-            std::string summary;
-            if (rule.summary.empty())
-                summary = "found '" + str.substr(pos1, pos2 - pos1) + "'";
-            else
-                summary = rule.summary;
-            const ErrorLogger::ErrorMessage errmsg(callStack, Severity::fromString(rule.severity), summary, rule.id, false);
-
-            // Report error
-            reportErr(errmsg);
-        }
-
-        pcre_free(re);
-    }
-#endif
 }
 
 Settings &CppCheck::settings()
@@ -500,7 +397,7 @@ void CppCheck::tooManyConfigsError(const std::string &file, const std::size_t nu
     }
 
     std::ostringstream msg;
-    msg << "Too many #ifdef configurations - seccheck only checks " << _settings._maxConfigs;
+    msg << "Too many #ifdef configurations - cpp2go only checks " << _settings._maxConfigs;
     if (numberOfConfigurations > _settings._maxConfigs)
         msg << " of " << numberOfConfigurations << " configurations. Use --force to check all configurations.\n";
     if (file.empty())

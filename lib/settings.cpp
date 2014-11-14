@@ -65,7 +65,7 @@ std::string Settings::addEnabled(const std::string &str)
         std::string::size_type pos = 0;
         while ((pos = str.find(",", pos)) != std::string::npos) {
             if (pos == prevPos)
-                return std::string("seccheck: --enable parameter is empty");
+                return std::string("cpp2go: --enable parameter is empty");
             const std::string errmsg(addEnabled(str.substr(prevPos, pos - prevPos)));
             if (!errmsg.empty())
                 return errmsg;
@@ -73,7 +73,7 @@ std::string Settings::addEnabled(const std::string &str)
             prevPos = pos;
         }
         if (prevPos >= str.length())
-            return std::string("seccheck: --enable parameter is empty");
+            return std::string("cpp2go: --enable parameter is empty");
         return addEnabled(str.substr(prevPos));
     }
 
@@ -107,9 +107,9 @@ std::string Settings::addEnabled(const std::string &str)
         }
     } else if (!handled) {
         if (str.empty())
-            return std::string("seccheck: --enable parameter is empty");
+            return std::string("cpp2go: --enable parameter is empty");
         else
-            return std::string("seccheck: there is no --enable parameter with the name '" + str + "'");
+            return std::string("cpp2go: there is no --enable parameter with the name '" + str + "'");
     }
 
     return std::string("");

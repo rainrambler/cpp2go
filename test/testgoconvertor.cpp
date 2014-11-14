@@ -35,9 +35,9 @@ public:
 
 private:
     void run() {
-        //TEST_CASE(simpleForClause);
-		//TEST_CASE(simpleClass);
-		//TEST_CASE(simpleClass2);
+        TEST_CASE(simpleForClause);
+		TEST_CASE(simpleClass);
+		TEST_CASE(simpleClass2);
 		TEST_CASE(simplePointer);
     }
 

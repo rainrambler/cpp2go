@@ -187,7 +187,7 @@ private:
         std::list<ErrorLogger::ErrorMessage::FileLocation> locs(1, fooCpp5);
         ErrorMessage msg(locs, Severity::error, "Programming error.\nVerbose error", "errorId", false);
         std::string header("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<results version=\"2\">\n");
-        header += "    <seccheck version=\"";
+        header += "    <cpp2go version=\"";
         header += CppCheck::version();
         header += "\"/>\n    <errors>";
         ASSERT_EQUALS(header, ErrorLogger::ErrorMessage::getXMLHeader(2));
@@ -204,7 +204,7 @@ private:
         locs.push_back(barCpp8);
         ErrorMessage msg(locs, Severity::error, "Programming error.\nVerbose error", "errorId", false);
         std::string header("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<results version=\"2\">\n");
-        header += "    <seccheck version=\"";
+        header += "    <cpp2go version=\"";
         header += CppCheck::version();
         header += "\"/>\n    <errors>";
         ASSERT_EQUALS(header, ErrorLogger::ErrorMessage::getXMLHeader(2));
