@@ -1,5 +1,5 @@
 /*
- * Seccheck - A tool for security C/C++ code analysis
+ * cpp2go - A tool for convert C/C++ code to Golang
  * Copyright (C) 2014 Wang Anyu
  *
  * This program is free software: you can redistribute it and/or modify
@@ -123,7 +123,17 @@ static bool isScopeClass(const Scope* sc)
 		return false;
 	}
 
-	return (sc->type == Scope::eClass) || (sc->type == Scope::eStruct);
+    return sc->isClassOrStruct();
+}
+
+static bool isMemberVariable(const Variable *v)
+{
+    if (v == nullptr)
+	{
+		return false;
+	}
+    
+    return v->isPublic() || v->isProtected() || v->isPrivate();
 }
 
 static string convertClassMember(const Token& variableToken)
@@ -157,7 +167,7 @@ static string convertClassMember(const Token& variableToken)
 		return variableToken.str();
 	}
 
-	if (isScopeClass(variableToken.scope()))
+	if (isMemberVariable(v))
 	{
 		return "parent." + variableToken.str();
 	}
@@ -167,14 +177,7 @@ static string convertClassMember(const Token& variableToken)
 	}
 }
 
-static string convertStatement(const Token* startToken, const Token* endToken)
-{
-	// TODO
-	return "";
-}
-
-
-// 4 statements type
+// 4 statement types
 // eType + eVariable + ";"
 // eVariable + eAssignment
 // eType + eVariable + 
@@ -188,21 +191,54 @@ static bool splitStatement(const Scope& sc, vector<Statement>& stmts)
     return true;
 }
 
-static bool isVariableDefination(const Token& tk)
+// eg:
+// int i;
+// ClassDef c;
+// ClassDef* p;
+// ClassDef& r;
+static bool isVariableDefination(const Token& tk, string& line)
 {
-    if (tk.type() != Token::eType)
+    if ((tk.type() != Token::eType) && (tk.type() != Token::eName))
     {
+        // eName means Class? 
         return false;
     }
 
-    Token* nextTk = tk.next();
+    Token* nextTk = tk.next();    
     if (nextTk == nullptr)
     {
         return false;
     }
 
-    if (nextTk->type() != Token::eVariable)
+    bool isPointer = false;
+    if (nextTk->str() == "*")
     {
+        // Skip pointer defination
+        nextTk = nextTk->next();
+        isPointer = true;
+    }
+
+    if (nextTk->str() == "&")
+    {
+        // Skip reference defination
+        nextTk = nextTk->next();
+    }
+
+    if ((nextTk == nullptr) || (nextTk->type() != Token::eVariable))
+    {
+        return false;
+    }
+
+    auto v = nextTk->variable();
+    if (v == nullptr)
+    {
+        return false;
+    }
+
+    if (findVariableType(*v) != tk.str())
+    {
+        // not class defination
+        // Maybe "return a ;"
         return false;
     }
 
@@ -212,7 +248,20 @@ static bool isVariableDefination(const Token& tk)
         return false;
     }
 
-    return (secondTk->str() == ";");
+    if (secondTk->str() != ";")
+    {
+        return false;
+    }
+
+    if (isPointer)
+    {
+        line = "type " + nextTk->str() + " *" + tk.str();
+    }
+    else
+    {
+        line = "type " + nextTk->str() + " " + tk.str();
+    }
+    return true;
 }
 
 static bool isAssignmentOP(const Token& tk)
@@ -253,19 +302,27 @@ static bool isNewLineChar(const string& s)
     return (s == ";") || (s == "{") || (s == "}");
 }
 
+// "(" 
 static bool isStartBracket(const Token& tk)
 {
     return (tk.str() == "(") && (tk.type() == Token::eExtendedOp);
 }
 
+// ")" 
 static bool isEndBracket(const Token& tk)
 {
     return (tk.str() == ")") && (tk.type() == Token::eExtendedOp);
 }
 
+static string convertVariableDef(const Token& tk)
+{
+
+}
+
 static string convertFunctionContent(const Scope& sc)
 {
 	string line = "";
+    string partline = "";
     bool isInBracket = false;
 
 	for (const Token* ftok2 = sc.classStart; ftok2 != sc.classEnd; ftok2 = ftok2->next())
@@ -284,12 +341,14 @@ static string convertFunctionContent(const Scope& sc)
 		{
 			line += ftok2->str() + "\r\n";
 		}
-        else if (isVariableDefination(*ftok2))
+        else if (isVariableDefination(*ftok2, partline))
         {
-			auto varTk = ftok2->next();
-			line += "type " + convertClassMember(*varTk) + " " + ftok2->str() + "\r\n";
+			line += partline + "\r\n";
 
-            ftok2 = ftok2->next()->next();
+            while (ftok2->str() != ";")
+            {
+                ftok2 = ftok2->next();
+            }
         }
         else if (isVariableInit(*ftok2))
         {
@@ -380,11 +439,6 @@ static string convertFunctionDefine(const Function& func)
 	return "";
 }
 
-static string convertGlobalScope(const Scope& sc)
-{
-	return "";
-}
-
 static string convertStructScope(const Scope& sc)
 {
 	vector<string> statements;
@@ -458,11 +512,6 @@ static string convertTryScope(const Scope& sc)
 	return "";
 }
 
-static string convertCatchScope(const Scope& sc)
-{
-	return "";
-}
-
 static bool isClassMember(const Function* func)
 {
 	if (func == nullptr)
@@ -503,6 +552,7 @@ std::string GoConvertor::convert()
     return allContents;
 }
 
+// Convert scopes of source file
 string GoConvertor::convertScope(const Scope& scope)
 {
 	switch (scope.type)
@@ -521,6 +571,7 @@ string GoConvertor::convertScope(const Scope& scope)
 		{
 			if (isClassMember(scope.function))
 			{
+                // should be handled in class scope
 				return "";
 			}
 			return convertNormalFunctionDefine(*scope.function);

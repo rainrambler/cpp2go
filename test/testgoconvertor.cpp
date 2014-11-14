@@ -1,5 +1,5 @@
 /*
- * Seccheck - A tool for security C/C++ code analysis
+ * cpp2go - A tool for convert C/C++ code to Golang
  * Copyright (C) 2014 Wang Anyu
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,10 +35,14 @@ public:
 
 private:
     void run() {
+        TEST_CASE(simplePointerDef);
+
         TEST_CASE(simpleForClause);
 		TEST_CASE(simpleClass);
+        TEST_CASE(simpleClassDef);
 		TEST_CASE(simpleClass2);
 		TEST_CASE(simplePointer);
+
     }
 
     string convert(const char code[]) {
@@ -47,6 +51,9 @@ private:
 
         Settings settings;
         settings.addEnabled("performance");
+        settings.debug = true;
+        settings.debugwarnings = true;
+        settings._verbose = true;
 
         // Tokenize..
         Tokenizer tokenizer(&settings, this);
@@ -64,12 +71,28 @@ private:
 		ASSERT(s!="");
     }
 
+    void simpleClassDef() {
+		string s = convert(
+            "class CA { int abc_; };\n"
+			"int main() { CA a; }\n"
+			  );
+		ASSERT(s!="");
+    }
+
+    void simplePointerDef() {
+		string s = convert(
+            "class CA { int abc_; };\n"
+            "int main() { CA* a = new CA(); CA b;}\n"
+			  );
+		ASSERT(s!="");
+    }
+
 	void simpleClass() {
 		string s = convert(
 			"class A {\n"
-			" public: A(){}; \n"
-			"static int f(int para){ int v = para + 100; return v; }\n"
+			" public: A(){}; \n"			
 			"void setM(int m){ m_ = m; }\n"
+            "static int f(int para){ int v = para + 100; return v; }\n"
 			"private: int m_; \n"
 			"};\n"
 			"int main() { A a; a.setM(20); }\n"
