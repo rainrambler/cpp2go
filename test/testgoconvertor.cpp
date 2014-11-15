@@ -35,14 +35,15 @@ public:
 
 private:
     void run() {
-        TEST_CASE(simplePointerDef);
 
+        TEST_CASE(simplePointerDef);
         TEST_CASE(simpleForClause);
 		TEST_CASE(simpleClass);
         TEST_CASE(simpleClassDef);
 		TEST_CASE(simpleClass2);
 		TEST_CASE(simplePointer);
 
+        TEST_CASE(autoVariable);
     }
 
     string convert(const char code[]) {
@@ -75,6 +76,13 @@ private:
 		string s = convert(
             "class CA { int abc_; };\n"
 			"int main() { CA a; }\n"
+			  );
+		ASSERT(s!="");
+    }
+
+    void autoVariable() {
+		string s = convert(            
+			"int main() { auto i = 1; auto b = 0.1; }\n"
 			  );
 		ASSERT(s!="");
     }

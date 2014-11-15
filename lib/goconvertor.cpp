@@ -196,6 +196,34 @@ static bool splitStatement(const Scope& sc, vector<Statement>& stmts)
 // ClassDef c;
 // ClassDef* p;
 // ClassDef& r;
+static bool isVariableDefination2(const Token& tk, string& line)
+{
+    if (!Token::Match(&tk, "%type% %var% ;"))    
+    {
+        return false;
+    }
+
+    Token* nextTk = tk.next();    
+    if (nextTk == nullptr)
+    {
+        return false;
+    }
+
+    auto v = nextTk->variable();
+    if (v == nullptr)
+    {
+        return false;
+    }
+
+    line = "type " + nextTk->str() + " " + v->typeStartToken()->str();
+    return true;
+}
+
+// eg:
+// int i;
+// ClassDef c;
+// ClassDef* p;
+// ClassDef& r;
 static bool isVariableDefination(const Token& tk, string& line)
 {
     if ((tk.type() != Token::eType) && (tk.type() != Token::eName))
@@ -363,6 +391,10 @@ static string convertFunctionContent(const Scope& sc)
 			// member variable
 			line += convertClassMember(*ftok2) + " ";
 		}
+        else if (Token::Match(ftok2, "delete %var% ;"))
+        {
+            // Do nothing
+        }
 		else
 		{
 			line += ftok2->str() + " ";
